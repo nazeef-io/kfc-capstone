@@ -3,19 +3,19 @@ kind: Deployment
 metadata:
   name: kfc-deployment
   labels:
-    app: kfc-static
+    app: kfc-capstone-dockerhub-repo
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: kfc-static
+      app: kfc-capstone-dockerhub-repo
   template:
     metadata:
       labels:
-        app: kfc-static
+        app: kfc-capstone-dockerhub-repo
     spec:
       containers:
-      - name: kfc-static
-        image: hanif040/kfc-static:latest
+      - name: kfc-capstone
+        image: nazeefkhan228/kfc-capstone-dockerhub-repo:2
         ports:
         - containerPort: 80
