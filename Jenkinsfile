@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = "hanif040/kfc-static"
-        DOCKER_TAG = "latest"
+        DOCKER_IMAGE = "nazeefkhan228/kfc-capstone-dockerhub-repo"
+        DOCKER_TAG = "${env.BUILD_NUMBER}"
     }
 
     stages {
@@ -30,7 +30,7 @@ pipeline {
         stage('Push to Docker Hub') {
             steps {
                 withCredentials([usernamePassword(
-                    credentialsId: 'dockerhub-creds',
+                    credentialsId: '0b16352d-915d-4664-8b36-24416c33e4ef',
                     usernameVariable: 'DOCKER_USER',
                     passwordVariable: 'DOCKER_PASS'
                 )]) {
