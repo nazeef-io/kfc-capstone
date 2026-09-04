@@ -2,6 +2,8 @@
 
 Deploys a static website using: **Docker → Jenkins → Docker Hub → Kubernetes → Minikube Tunnel → Ngrok**
 
+<img width="1920" height="1200" alt="Screenshot From 2026-09-04 14-28-28" src="https://github.com/user-attachments/assets/d26ebbdd-63d5-46a4-90bf-debc50b42de0" />
+
 ## Structure
 ```
 kfc-capstone/
