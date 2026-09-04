@@ -7,14 +7,14 @@ Deploys a static website using: **Docker → Jenkins → Docker Hub → Kubernet
 ## Structure
 ```
 kfc-capstone/
-├── website/           # Static site (HTML/CSS)
+├── website/           
 │   ├── index.html
 │   └── css/style.css
-├── Dockerfile          # Builds nginx-based image serving the site
-├── Jenkinsfile         # CI/CD pipeline: build → verify → push to Docker Hub
+├── Dockerfile          
+├── Jenkinsfile         
 ├── k8s/
-│   ├── deployment.yaml # K8s Deployment (2 replicas)
-│   └── service.yaml    # K8s LoadBalancer Service on port 80
+│   ├── deployment.yaml  
+│   └── service.yaml     
 └── README.md
 ```
 
@@ -89,23 +89,3 @@ Forwarding   https://xxxx.ngrok-free.app -> http://<EXTERNAL-IP>:80
 
 Open that `https://...ngrok-free.app` URL in a browser — this is your live, publicly accessible site.
 
-## Troubleshooting
-
-| Symptom | Cause | Fix |
-|---|---|---|
-| `ImagePullBackOff` / `ErrImagePull` | Wrong image name/tag, or image not public yet | `docker pull <image>` locally to confirm it exists and is public; run `kubectl describe pod <name>` and check Events |
-| `dial tcp ...:8443: connect: no route to host` on `kubectl apply` | Minikube stopped or IP changed | `minikube status` → `minikube start --driver=docker` if stopped |
-| `EXTERNAL-IP` stuck on `<pending>` | `minikube tunnel` not running | Start it in a separate terminal/tmux session and leave it running |
-| `502 Bad Gateway` from ngrok | Ngrok pointed at `localhost:80` instead of the Service's real `EXTERNAL-IP` | `kubectl get service kfc-service`, use that IP in `ngrok http <IP>:80` |
-| `curl http://localhost:80` → Connection refused | Same as above — nothing binds to localhost with `minikube tunnel` | Always test against the real `EXTERNAL-IP`, not localhost |
-
-## Validation checklist
-- [ ] `docker build` succeeds locally
-- [ ] `docker run` + `curl` returns HTML
-- [ ] Jenkins pipeline runs all 4 stages green
-- [ ] Image visible on Docker Hub (`nazeefkhan228/kfc-capstone-dockerhub-repo:latest`)
-- [ ] `kubectl get pods` shows 2/2 Running
-- [ ] `kubectl get service kfc-service` shows LoadBalancer with a real EXTERNAL-IP (after `minikube tunnel`)
-- [ ] `curl http://<EXTERNAL-IP>:80` returns the site's HTML
-- [ ] Ngrok forwarding to `<EXTERNAL-IP>:80` shows no errors
-- [ ] Browser screenshot of the site loading via the ngrok public URL
